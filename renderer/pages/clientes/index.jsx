@@ -226,7 +226,7 @@ async function createClient(data) {
 async function getClients() {
 
     const apiUrl = config.apiUrl();
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIyLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTM4NjAxOTMsImV4cCI6MTY1Mzg2Mzc5M30.LGbCvLJ33jg-WUx2SsTzuZj4ic-MGsGgzE8BKatZCHo';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQxNjAxMTMsImV4cCI6MTY1NDE2MzcxM30.h1SzgcCKiY8MUPr17g00UMZCGb2arN5CBMO3q5V_vmw';
 
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);

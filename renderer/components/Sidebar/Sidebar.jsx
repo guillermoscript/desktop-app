@@ -59,7 +59,7 @@ export default function Sidebar({ children }) {
       <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
         <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
           <Image src="/images/logout.svg" alt="logout" width={20} height={20} />
-          <span className="group-hover:text-gray-700">Logout</span>
+          <span className="group-hover:text-gray-700">Finalizar Sesion</span>
         </button>
       </div>
     </aside>

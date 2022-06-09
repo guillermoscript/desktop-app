@@ -176,7 +176,7 @@ export default function Clientes({ clients, names }) {
     <>
       {/* <Layout title={polizas.title}> */}
       <Layout title="Clientes">
-        <div class="p-4 block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
+        <div className="p-4 block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
           <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
             <button
               onClick={() => {

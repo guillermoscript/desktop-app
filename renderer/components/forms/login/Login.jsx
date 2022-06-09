@@ -84,24 +84,24 @@ export default function Login({ setIsLogin }) {
     return (
 
         <>
-            <form onSubmit={handleSubmit(onSubmit)} class="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4">
                 <div
-                    class="text-gray-800 text-2xl flex justify-center border-b-2 py-2 mb-4"
+                    className="text-gray-800 text-2xl flex justify-center border-b-2 py-2 mb-4"
                 >
                     Login
                 </div>
                 {inputs.map((el, index) => {
                     return <InputGroup key={index} {...el} />
                 })}
-                <div class="flex items-center justify-between">
-                    <button class="px-4 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700" type="submit">Sign In</button>
+                <div className="flex items-center justify-between">
+                    <button className="px-4 py-2 rounded text-white inline-block shadow-lg bg-blue-500 hover:bg-blue-600 focus:bg-blue-700" type="submit">Sign In</button>
                     <a
-                        class="inline-block align-baseline font-normal text-sm text-blue-500 hover:text-blue-800"
+                        className="inline-block align-baseline font-normal text-sm text-blue-500 hover:text-blue-800"
                         href="#"
                     >
                         Forgot Password?
                     </a>
-                    <a class="inline-block align-baseline font-normal text-sm text-blue-500 hover:text-blue-800" href="#" onClick={() => setIsLogin(false)} > Registrarse </a>
+                    <a className="inline-block align-baseline font-normal text-sm text-blue-500 hover:text-blue-800" href="#" onClick={() => setIsLogin(false)} > Registrarse </a>
                 </div>
             </form>
         </>

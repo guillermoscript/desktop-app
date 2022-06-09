@@ -8,8 +8,8 @@ export default function Auth(params) {
 
   return (
     <>
-      <div class="flex items-center justify-center">
-        <div class="w-full max-w-md">
+      <div className="flex items-center justify-center">
+        <div className="w-full max-w-md">
           
           {isLogin ?
             <Login setIsLogin={setIsLogin} />  

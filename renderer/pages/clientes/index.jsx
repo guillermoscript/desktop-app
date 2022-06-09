@@ -19,6 +19,7 @@ const schema = yup
     company: yup.string(),
     birthDate: yup.date().required("La Fecha de Nacimiento es Requerida"),
     document: yup.number().required("El documento es Requerido"),
+    documentTypeId: yup.number().required("El documento es Requerido"),
     phone: yup.string(),
   })
   .required();
@@ -81,7 +82,23 @@ export default function Clientes({ clients, names }) {
       },
     },
     {
+      //tranformar esto en un select
       id: 4,
+      name: "documentTypeId",
+      type: "text",
+      placeholder: "1",
+      register,
+      errors,
+      text: "Tipo de Documento",
+      classes: {
+        label: "text-sm font-medium text-gray-900 block mb-2",
+        input:
+          "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
+        div: "col-span-6 sm:col-span-3",
+      },
+    },
+    {
+      id: 5,
       name: "document",
       type: "text",
       placeholder: "14616646",
@@ -96,7 +113,7 @@ export default function Clientes({ clients, names }) {
       },
     },
     {
-      id: 5,
+      id: 6,
       name: "birthDate",
       type: "date",
       placeholder: "01-10-14",
@@ -111,7 +128,7 @@ export default function Clientes({ clients, names }) {
       },
     },
     {
-      id: 6,
+      id: 7,
       name: "phone",
       type: "text",
       placeholder: "0414779865",
@@ -126,7 +143,7 @@ export default function Clientes({ clients, names }) {
       },
     },
     {
-      id: 7,
+      id: 8,
       name: "company",
       type: "text",
       placeholder: "Enyel y los otros",
@@ -141,7 +158,7 @@ export default function Clientes({ clients, names }) {
       },
     },
     {
-      id: 8,
+      id: 9,
       name: "civilPolicyStatus",
       type: "text",
       placeholder: "Soltero",
@@ -156,7 +173,7 @@ export default function Clientes({ clients, names }) {
       },
     },
     {
-      id: 9,
+      id: 10,
       name: "ocupation",
       type: "text",
       placeholder: "Dev",
@@ -255,7 +272,7 @@ async function createClient(data) {
   const apiUrl = config.apiUrl();
 
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIyLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQyMzkwNTIsImV4cCI6MTY1NDI0MjY1Mn0.Vbn05ondyKqFzR2sqnOzlRc_jxUubk1QIpW-Na_pmMw";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ3NTU4NTYsImV4cCI6MTY1NDc1OTQ1Nn0.1mAJwV74VWHbyJ1hJPp-XC4jJXFRYu0c6ChLvDKsCNo";
 
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);
@@ -282,7 +299,7 @@ async function createClient(data) {
 async function getClients() {
   const apiUrl = config.apiUrl();
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIyLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQyMzkwNTIsImV4cCI6MTY1NDI0MjY1Mn0.Vbn05ondyKqFzR2sqnOzlRc_jxUubk1QIpW-Na_pmMw";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ3NTU4NTYsImV4cCI6MTY1NDc1OTQ1Nn0.1mAJwV74VWHbyJ1hJPp-XC4jJXFRYu0c6ChLvDKsCNo";
 
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);

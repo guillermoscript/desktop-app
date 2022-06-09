@@ -9,19 +9,24 @@ export default function Sidebar({ children }) {
       image: "/images/dashboard.svg",
     },
     {
-      title: "Next page",
-      link: "/next",
-      image: "/images/folder.svg",
-    },
-    {
       title: "Polizas",
-      link: "/polizas",
+      link: "/poliza",
       image: "/images/insurance.svg",
     },
     {
       title: "Clientes",
       link: "/clientes",
       image: "/images/client.svg",
+    },
+    {
+      title: "Aseguradoras",
+      link: "/aseguradoras",
+      image: "/images/folder.svg",
+    },
+    {
+      title: "Ramas",
+      link: "/ramas",
+      image: "/images/folder.svg",
     },
   ];
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import SidebarList from "../List/SidebarList";
 
 export default function Sidebar({ children }) {
@@ -61,12 +62,14 @@ export default function Sidebar({ children }) {
         </ul>
       </div>
 
+      <Link href="/auth">
       <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
         <button className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
           <Image src="/images/logout.svg" alt="logout" width={20} height={20} />
           <span className="group-hover:text-gray-700">Finalizar Sesion</span>
         </button>
       </div>
+      </Link>
     </aside>
   );
 }

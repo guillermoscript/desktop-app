@@ -13,7 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 const schema = yup
   .object({
     email: yup.string().email("Email no valido").required("Email Requerido"),
-    name: yup.string().required("La contrasena es requerida"),
+    name: yup.string().required("El nombre es requerido"),
     lastName: yup.string().required("El apellido es requerido"),
     civilPolicyStatus: yup.string(),
     company: yup.string(),
@@ -43,7 +43,7 @@ export default function Clientes({ clients, names }) {
       placeholder: "Email",
       register,
       errors,
-      text: "Email",
+      text: "Correo Electronico",
       classes: {
         label: "text-sm font-medium text-gray-900 block mb-2",
         input:
@@ -201,7 +201,7 @@ export default function Clientes({ clients, names }) {
               }}
               type="button"
               data-modal-toggle="add-user-modal"
-              className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto"
+              className="w-1/2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto"
             >
               <svg
                 className="-ml-1 mr-2 h-6 w-6"
@@ -210,9 +210,9 @@ export default function Clientes({ clients, names }) {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
               Añadir Cliente
@@ -228,9 +228,9 @@ export default function Clientes({ clients, names }) {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
               Exportar
@@ -260,7 +260,7 @@ export default function Clientes({ clients, names }) {
             submitFunction={createClient}
             handleSubmit={handleSubmit}
             data={data}
-            title="Crear Cliente"
+            title="Añadir Cliente"
           />
         ) : null}
       </Layout>
@@ -272,7 +272,7 @@ async function createClient(data) {
   const apiUrl = config.apiUrl();
 
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ3NTU4NTYsImV4cCI6MTY1NDc1OTQ1Nn0.1mAJwV74VWHbyJ1hJPp-XC4jJXFRYu0c6ChLvDKsCNo";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ4NTEzMDQsImV4cCI6MTY1NDg1NDkwNH0.KjkzuugtnXjuItYLACdlbEq25zd63DzkR93pea-Lx4w";
 
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);
@@ -299,7 +299,7 @@ async function createClient(data) {
 async function getClients() {
   const apiUrl = config.apiUrl();
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ3NTU4NTYsImV4cCI6MTY1NDc1OTQ1Nn0.1mAJwV74VWHbyJ1hJPp-XC4jJXFRYu0c6ChLvDKsCNo";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ4NTEzMDQsImV4cCI6MTY1NDg1NDkwNH0.KjkzuugtnXjuItYLACdlbEq25zd63DzkR93pea-Lx4w";
 
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);

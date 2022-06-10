@@ -27,7 +27,7 @@ export default function Login({ setIsLogin }) {
             placeholder: 'Email',
             register,
             errors,
-            text: 'Email',
+            text: 'Correo Electronico',
             classes: {
                 label: 'block text-gray-700 text-sm font-normal mb-2',
                 input: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
@@ -40,7 +40,7 @@ export default function Login({ setIsLogin }) {
             placeholder: 'Password',
             register,
             errors,
-            text: 'password',
+            text: 'Contraseña',
             classes: {
                 label: 'block text-gray-700 text-sm font-normal mb-2',
                 input: 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',

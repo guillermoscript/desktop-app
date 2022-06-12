@@ -9,11 +9,11 @@ export default function Header({ children, title }) {
     const headerWidget = [
         {
             title: "chat",
-            image: "/images/chat.svg"
+            image: "/images/message.svg"
         },
         {
             title: "notifications",
-            image: "/images/notifications.svg"
+            image: "/images/notification.svg"
         }
     ]
 

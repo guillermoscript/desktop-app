@@ -12,19 +12,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup
   .object({
-    email: yup.string().email("Email no valido").required("Email Requerido"),
-    name: yup.string().required("El nombre es requerido"),
-    lastName: yup.string().required("El apellido es requerido"),
-    civilPolicyStatus: yup.string(),
-    company: yup.string(),
-    birthDate: yup.date().required("La Fecha de Nacimiento es Requerida"),
-    document: yup.number().required("El documento es Requerido"),
-    documentTypeId: yup.number().required("El documento es Requerido"),
+    email: yup.string().email("Email no valido"),
+    name: yup.string().required("La contrasena es requerida"),
+    document: yup.number().required("El Rif es Requerido"),
     phone: yup.string(),
+    account: yup.string(),
+    paymentLink: yup.string(),
   })
   .required();
 
-export default function Clientes({ clients, names }) {
+export default function Aseguradoras({ insuranceCarriers, names }) {
   const [showModal, setShowModal] = useState(false);
   const {
     register,
@@ -38,12 +35,12 @@ export default function Clientes({ clients, names }) {
   const data = [
     {
       id: 1,
-      name: "email",
-      type: "email",
-      placeholder: "Email",
+      name: "document",
+      type: "text",
+      placeholder: "",
       register,
       errors,
-      text: "Correo Electronico",
+      text: "RIF de la Empresa",
       classes: {
         label: "text-sm font-medium text-gray-900 block mb-2",
         input:
@@ -55,10 +52,10 @@ export default function Clientes({ clients, names }) {
       id: 2,
       name: "name",
       type: "text",
-      placeholder: "Jose Carlos",
+      placeholder: "",
       register,
       errors,
-      text: "Nombres",
+      text: "Nombre de la Empresa",
       classes: {
         label: "text-sm font-medium text-gray-900 block mb-2",
         input:
@@ -68,12 +65,12 @@ export default function Clientes({ clients, names }) {
     },
     {
       id: 3,
-      name: "lastName",
-      type: "text",
-      placeholder: "Duarte Molinas",
+      name: "email",
+      type: "email",
+      placeholder: "",
       register,
       errors,
-      text: "Apellidos",
+      text: "Correo Electronico",
       classes: {
         label: "text-sm font-medium text-gray-900 block mb-2",
         input:
@@ -82,56 +79,10 @@ export default function Clientes({ clients, names }) {
       },
     },
     {
-      //tranformar esto en un select
       id: 4,
-      name: "documentTypeId",
-      type: "text",
-      placeholder: "1",
-      register,
-      errors,
-      text: "Tipo de Documento",
-      classes: {
-        label: "text-sm font-medium text-gray-900 block mb-2",
-        input:
-          "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-        div: "col-span-6 sm:col-span-3",
-      },
-    },
-    {
-      id: 5,
-      name: "document",
-      type: "text",
-      placeholder: "14616646",
-      register,
-      errors,
-      text: "Documento",
-      classes: {
-        label: "text-sm font-medium text-gray-900 block mb-2",
-        input:
-          "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-        div: "col-span-6 sm:col-span-3",
-      },
-    },
-    {
-      id: 6,
-      name: "birthDate",
-      type: "date",
-      placeholder: "01-10-14",
-      register,
-      errors,
-      text: "Fecha de Nacimiento",
-      classes: {
-        label: "text-sm font-medium text-gray-900 block mb-2",
-        input:
-          "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-        div: "col-span-6 sm:col-span-3",
-      },
-    },
-    {
-      id: 7,
       name: "phone",
       type: "text",
-      placeholder: "0414779865",
+      placeholder: "",
       register,
       errors,
       text: "Telefono",
@@ -143,13 +94,13 @@ export default function Clientes({ clients, names }) {
       },
     },
     {
-      id: 8,
-      name: "company",
+      id: 5,
+      name: "account",
       type: "text",
-      placeholder: "Enyel y los otros",
+      placeholder: "",
       register,
       errors,
-      text: "Compania",
+      text: "Cuenta Bancaria",
       classes: {
         label: "text-sm font-medium text-gray-900 block mb-2",
         input:
@@ -158,28 +109,13 @@ export default function Clientes({ clients, names }) {
       },
     },
     {
-      id: 9,
-      name: "civilPolicyStatus",
+      id: 6,
+      name: "paymentLink",
       type: "text",
-      placeholder: "Soltero",
+      placeholder: "",
       register,
       errors,
-      text: "Estado Civil",
-      classes: {
-        label: "text-sm font-medium text-gray-900 block mb-2",
-        input:
-          "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-        div: "col-span-6 sm:col-span-3",
-      },
-    },
-    {
-      id: 10,
-      name: "ocupation",
-      type: "text",
-      placeholder: "Dev",
-      register,
-      errors,
-      text: "Ocupacion",
+      text: "Link de Pago",
       classes: {
         label: "text-sm font-medium text-gray-900 block mb-2",
         input:
@@ -192,7 +128,7 @@ export default function Clientes({ clients, names }) {
   return (
     <>
       {/* <Layout title={polizas.title}> */}
-      <Layout title="Clientes">
+      <Layout title="Aseguradoras">
         <div className="p-4 block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
           <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
             <button
@@ -215,7 +151,7 @@ export default function Clientes({ clients, names }) {
                   clipRule="evenodd"
                 ></path>
               </svg>
-              Añadir Cliente
+              Añadir Aseguradora
             </button>
             <a
               href="#"
@@ -241,7 +177,7 @@ export default function Clientes({ clients, names }) {
         <Table>
           <TableHead names={names} />
           <TableBody>
-            {clients.map((el) => {
+            {insuranceCarriers.map((el) => {
               return (
                 <tr
                   key={el.id}
@@ -257,10 +193,10 @@ export default function Clientes({ clients, names }) {
         {showModal ? (
           <Modal
             setShowModal={setShowModal}
-            submitFunction={createClient}
+            submitFunction={createInsuranceCarrier}
             handleSubmit={handleSubmit}
             data={data}
-            title="Añadir Cliente"
+            title="Añadir Aseguradora"
           />
         ) : null}
       </Layout>
@@ -268,7 +204,7 @@ export default function Clientes({ clients, names }) {
   );
 }
 
-async function createClient(data) {
+async function createInsuranceCarrier(data) {
   const apiUrl = config.apiUrl();
 
   const token =
@@ -286,17 +222,17 @@ async function createClient(data) {
   };
   console.log(JSON.stringify(data), "1");
   try {
-    const response = await fetch(`${apiUrl}/clients`, requestOptions);
+    const response = await fetch(`${apiUrl}/insurance-carrier`, requestOptions);
     const data = await response.json();
     console.log(data, "2");
-    return filteredClientData(data);
+    return filteredInsuranceCarrierData(data);
   } catch (error) {
     console.log(error);
     return error;
   }
 }
 
-async function getClients() {
+async function getInsuranceCarrier() {
   const apiUrl = config.apiUrl();
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ4NTEzMDQsImV4cCI6MTY1NDg1NDkwNH0.KjkzuugtnXjuItYLACdlbEq25zd63DzkR93pea-Lx4w";
@@ -311,9 +247,9 @@ async function getClients() {
   };
 
   try {
-    const response = await fetch(`${apiUrl}/clients`, requestOptions);
+    const response = await fetch(`${apiUrl}/insurance-carrier`, requestOptions);
     const data = await response.json();
-    return filteredClientData(data);
+    return filteredInsuranceCarrierData(data);
   } catch (error) {
     console.log(error);
     return;
@@ -330,16 +266,13 @@ const onSubmit = (data) => {
     });
 };
 
-function filteredClientData(client) {
-  return client.map((el) => {
+function filteredInsuranceCarrierData(insuranceCarrier) {
+  return insuranceCarrier.map((el) => {
     const data = {
       id: el.id,
-      fullName: `${el.Persons.name} ${el.Persons.lastName}`,
-      document: `${el.Persons.documentTypeId} ${el.Persons.document}`,
-      gender: el.Persons.gender,
-      birthDate: el.Persons.birthDate,
-      company: el.company,
-      ocupation: el.ocupation,
+      companyName: el.name,
+      document: `j-${el.document}`,
+      email: el.email,
     };
     return data;
   });
@@ -350,18 +283,15 @@ export async function getServerSideProps(context) {
     "ID",
     "Nombre",
     "Documento",
-    "Genero",
-    "Fecha De Nacimiento",
-    "Company",
-    "Ocupacion",
+    "Correo Electronico",
   ];
 
-  const clients = await getClients();
+  const insuranceCarriers = await getInsuranceCarrier();
 
   return {
     props: {
       names: head,
-      clients,
+      insuranceCarriers,
     }, // will be passed to the page component as props
   };
 }

@@ -15,7 +15,7 @@ function Home() {
         <Link href='/next'>
           <a className='btn-blue'>Go to next page</a>
         </Link>
-        <Link href='/poliza'>
+        <Link href='/polizas'>
           <a className='btn-blue'>Go to Poliza</a>
         </Link>
         <Link href='/auth'>

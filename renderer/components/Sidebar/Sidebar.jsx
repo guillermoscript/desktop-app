@@ -11,7 +11,7 @@ export default function Sidebar({ children }) {
     },
     {
       title: "Polizas",
-      link: "/poliza",
+      link: "/polizas",
       image: "/images/insurance.svg",
     },
     {
@@ -25,7 +25,7 @@ export default function Sidebar({ children }) {
       image: "/images/folder.svg",
     },
     {
-      title: "Ramas",
+      title: "Ramos",
       link: "/ramas",
       image: "/images/folder.svg",
     },

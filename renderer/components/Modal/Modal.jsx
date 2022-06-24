@@ -6,6 +6,7 @@ export default function Modal({ title, data, handleSubmit, submitFunction, setSh
         console.log(data);
         submitFunction(data).then(res => {
             console.log(res);
+            setShowModal(false);
         }).catch(err => {
             console.log(err);
         })

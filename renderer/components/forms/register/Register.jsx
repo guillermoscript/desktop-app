@@ -94,7 +94,7 @@ export default function Register({ setIsLogin }) {
 
             localStorage.setItem('token', data.access_token)
             // return data
-            router.push('/poliza')
+            router.push('/polizas')
 
         } catch (error) {
             return error

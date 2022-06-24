@@ -1,9 +1,10 @@
 import InputGroup from "../InputGroup";
-import { config } from '../../../../configs'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useRouter } from 'next/router'
+import { useDispatch } from "react-redux";
+import { login } from "../../../features/user";
 
 const schema = yup.object({
     email: yup.string().email('Email no valido').required('Email Requerido'),
@@ -11,7 +12,6 @@ const schema = yup.object({
 }).required();
 
 
-const apiUrl = config.apiUrl();
 
 export default function Login({ setIsLogin }) {
 
@@ -19,6 +19,7 @@ export default function Login({ setIsLogin }) {
         resolver: yupResolver(schema)
     });
     const router = useRouter()
+    const dispatch = useDispatch();
 
     const inputs = [
         {
@@ -49,36 +50,13 @@ export default function Login({ setIsLogin }) {
         }
     ];
 
-    async function loginUser(data) {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        const raw = JSON.stringify(data);
-
-        const requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-        try {
-            const response = await fetch(`${apiUrl}/auth/login`, requestOptions)
-            const data = await response.json()
-            localStorage.setItem('token', data.access_token)
-
-            router.push('/poliza')
-            // return data
-        } catch (error) {
-            return error
-        }
-    }
-
     const onSubmit = data => {
-        loginUser(data).then(res => {
-            console.log(res);
-        }).catch(err => {
+        dispatch(login(data)).then((result) => {
+            console.log(result);
+            router.push('/polizas')
+        }).catch((err) => {
             console.log(err);
-        })
+        });
     };
 
     return (

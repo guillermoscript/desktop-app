@@ -3,7 +3,7 @@ export default function InputGroup({ name, type, placeholder, text, register, va
     <div className={classes.div}>
       <label
         className={classes.label}
-        for={name}
+        htmlFor={name}
       >
         {text}
       </label>

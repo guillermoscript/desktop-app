@@ -4,11 +4,13 @@ import TableBody from "../../components/Table/TableBody";
 import TableHead from "../../components/Table/TableHead";
 import TableRow from "../../components/Table/TableRow";
 import Layout from "../../components/Layout/Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../components/Modal/Modal";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const schema = yup
   .object({
@@ -21,8 +23,14 @@ const schema = yup
   })
   .required();
 
-export default function Aseguradoras({ insuranceCarriers, names }) {
+export default function Aseguradoras() {
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [insuranceCarrier, setInsuranceCarrier] = useState({
+    insuranceCarriers: null,
+    names: null,
+    token: null,
+  });
   const {
     register,
     handleSubmit,
@@ -124,6 +132,39 @@ export default function Aseguradoras({ insuranceCarriers, names }) {
       },
     },
   ];
+  const user = useSelector((state) => state.users);
+  const router = useRouter()
+
+  useEffect(() => {
+    async function fetchInsuranceCarriers() {
+      console.log(user, "user");
+      if (!user.token) {
+        router.push("/auth")
+      }
+
+      const head = [
+        "ID",
+        "Nombre",
+        "Documento",
+        "Correo Electronico",
+      ];
+      const insuranceCarriers = await getInsuranceCarrier(user.token);
+
+      setInsuranceCarrier({
+        names: head,
+        insuranceCarriers,
+        token: user.token,
+      });
+      setLoading(false);
+    }
+    fetchInsuranceCarriers();
+  }, []);
+
+  const { insuranceCarriers, names, token } = insuranceCarrier
+
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <>
@@ -193,7 +234,16 @@ export default function Aseguradoras({ insuranceCarriers, names }) {
         {showModal ? (
           <Modal
             setShowModal={setShowModal}
-            submitFunction={createInsuranceCarrier}
+            submitFunction={async (data) => {
+              const newInsuranceCarrier = await createInsuranceCarrier(data,token)
+              console.log(newInsuranceCarrier, "newInsuranceCarrier");
+              setInsuranceCarrier({
+                ...insuranceCarrier,
+                insuranceCarriers: [...insuranceCarriers, newInsuranceCarrier],
+              });
+              console.log(insuranceCarrier, "insuranceCarrier");
+              return newInsuranceCarrier;
+            }}
             handleSubmit={handleSubmit}
             data={data}
             title="Añadir Aseguradora"
@@ -204,11 +254,10 @@ export default function Aseguradoras({ insuranceCarriers, names }) {
   );
 }
 
-async function createInsuranceCarrier(data) {
+async function createInsuranceCarrier(data, token) {
   const apiUrl = config.apiUrl();
-
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ4NTEzMDQsImV4cCI6MTY1NDg1NDkwNH0.KjkzuugtnXjuItYLACdlbEq25zd63DzkR93pea-Lx4w";
+  // const token =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ4NTEzMDQsImV4cCI6MTY1NDg1NDkwNH0.KjkzuugtnXjuItYLACdlbEq25zd63DzkR93pea-Lx4w";
 
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);
@@ -225,17 +274,22 @@ async function createInsuranceCarrier(data) {
     const response = await fetch(`${apiUrl}/insurance-carrier`, requestOptions);
     const data = await response.json();
     console.log(data, "2");
-    return filteredInsuranceCarrierData(data);
+    return {
+      id: data.id,
+      companyName: data.name,
+      document: `j-${data.document}`,
+      email: data.email,
+    };
   } catch (error) {
     console.log(error);
     return error;
   }
 }
 
-async function getInsuranceCarrier() {
+async function getInsuranceCarrier(token) {
   const apiUrl = config.apiUrl();
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ4NTEzMDQsImV4cCI6MTY1NDg1NDkwNH0.KjkzuugtnXjuItYLACdlbEq25zd63DzkR93pea-Lx4w";
+  // const token =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ4NTEzMDQsImV4cCI6MTY1NDg1NDkwNH0.KjkzuugtnXjuItYLACdlbEq25zd63DzkR93pea-Lx4w";
 
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${token}`);
@@ -276,22 +330,4 @@ function filteredInsuranceCarrierData(insuranceCarrier) {
     };
     return data;
   });
-}
-
-export async function getServerSideProps(context) {
-  const head = [
-    "ID",
-    "Nombre",
-    "Documento",
-    "Correo Electronico",
-  ];
-
-  const insuranceCarriers = await getInsuranceCarrier();
-
-  return {
-    props: {
-      names: head,
-      insuranceCarriers,
-    }, // will be passed to the page component as props
-  };
 }

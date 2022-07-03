@@ -14,7 +14,7 @@ export default function InputGroup({ name, type, placeholder, text, register, va
         
         placeholder={placeholder}
       />
-      {errors && <span>{errors.messages}</span>}
+      {errors[name]?.message !== undefined ? <span className={classes.error}>{errors[name]?.message}</span> : null }
     </div>
   );
 }

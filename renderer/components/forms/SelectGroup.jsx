@@ -10,13 +10,16 @@ export default function SelectGroup({ name, text, optionData, register, validate
             <select
                 className={classes.select}
                 {...register(name, validate)}
+                value={register(name).value}
             >
+                {/* the first option shoul be a disable optip  */}
+                <option value="">Selecciona una opción</option>
                 {optionData.map(el => {
                     return <option value={el.value} > {el.optionName}</option>
                 })}
 
             </select>
-            {errors && <span>{errors.messages}</span>}
+            {errors[name]?.message !== undefined ? <span className={classes.error}>{errors[name]?.message}</span> : null}
         </div>
     );
 }

@@ -5,136 +5,39 @@ import TableHead from "../../components/Table/TableHead";
 import TableRow from "../../components/Table/TableRow";
 import Layout from "../../components/Layout/Layout";
 import { useEffect, useState } from "react";
-import Modal from "../../components/Modal/Modal";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import ButtonIcon from "../../components/Buttons/ButtonIcon";
+import ActionRow from "../../components/Table/Row/ActionRow";
 
-const schema = yup
-    .object({
-        email: yup.string().email("Email no valido"),
-        name: yup.string().required("La contrasena es requerida"),
-        document: yup.number().required("El Rif es Requerido"),
-        phone: yup.string(),
-        account: yup.string(),
-        paymentLink: yup.string(),
-    })
-    .required();
 
 export default function Polizas() {
-    const [showModal, setShowModal] = useState(false);
+
     const [loading, setLoading] = useState(true);
     const [poliza, setPoliza] = useState({
         polizas: null,
         names: null,
         token: null,
     });
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
-    });
 
-    const data = [
-        {
-            id: 1,
-            name: "document",
-            type: "text",
-            placeholder: "",
-            register,
-            errors,
-            text: "RIF de la Empresa",
-            classes: {
-                label: "text-sm font-medium text-gray-900 block mb-2",
-                input:
-                    "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-                div: "col-span-6 sm:col-span-3",
-            },
-        },
-        {
-            id: 2,
-            name: "name",
-            type: "text",
-            placeholder: "",
-            register,
-            errors,
-            text: "Nombre de la Empresa",
-            classes: {
-                label: "text-sm font-medium text-gray-900 block mb-2",
-                input:
-                    "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-                div: "col-span-6 sm:col-span-3",
-            },
-        },
-        {
-            id: 3,
-            name: "email",
-            type: "email",
-            placeholder: "",
-            register,
-            errors,
-            text: "Correo Electronico",
-            classes: {
-                label: "text-sm font-medium text-gray-900 block mb-2",
-                input:
-                    "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-                div: "col-span-6 sm:col-span-3",
-            },
-        },
-        {
-            id: 4,
-            name: "phone",
-            type: "text",
-            placeholder: "",
-            register,
-            errors,
-            text: "Telefono",
-            classes: {
-                label: "text-sm font-medium text-gray-900 block mb-2",
-                input:
-                    "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-                div: "col-span-6 sm:col-span-3",
-            },
-        },
-        {
-            id: 5,
-            name: "account",
-            type: "text",
-            placeholder: "",
-            register,
-            errors,
-            text: "Cuenta Bancaria",
-            classes: {
-                label: "text-sm font-medium text-gray-900 block mb-2",
-                input:
-                    "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-                div: "col-span-6 sm:col-span-3",
-            },
-        },
-        {
-            id: 6,
-            name: "paymentLink",
-            type: "text",
-            placeholder: "",
-            register,
-            errors,
-            text: "Link de Pago",
-            classes: {
-                label: "text-sm font-medium text-gray-900 block mb-2",
-                input:
-                    "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-                div: "col-span-6 sm:col-span-3",
-            },
-        },
-    ];
     const user = useSelector((state) => state.users);
     const router = useRouter()
+
+    const buttonsBranch = [
+        {
+            buttonClass: 'w-1/2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto',
+            text: 'Anadir Poliza',
+        },
+        {
+            buttonClass: 'w-1/2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto',
+            text: 'Actualizar Poliza',
+        },
+        {
+            buttonClass: 'w-1/2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto',
+            text: 'Eliminar Poliza',
+        },
+    ]
 
     useEffect(() => {
         async function fetchPolizas() {
@@ -148,6 +51,7 @@ export default function Polizas() {
                 "Numero de Poliza",
                 "Riesgo",
                 "Valor Asegurado",
+                "Acciones",
             ];
             const polizas = await getPoliza(user.token);
 
@@ -169,7 +73,6 @@ export default function Polizas() {
 
     return (
         <>
-            {/* <Layout title={polizas.title}> */}
             <Layout title="Polizas">
                 <div className="p-4 block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
                     <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
@@ -190,6 +93,25 @@ export default function Polizas() {
                                     ></path>
                                 </svg>
                                 Añadir Poliza
+                            </a>
+                        </Link>
+                        <Link href="/polizas/update">
+                            <a
+                                className="w-1/2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto"
+                            >
+                                <svg
+                                    className="-ml-1 mr-2 h-6 w-6"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                        clipRule="evenodd"
+                                    ></path>
+                                </svg>
+                                Actualizar Poliza
                             </a>
                         </Link>
                         <a
@@ -228,25 +150,6 @@ export default function Polizas() {
                         })}
                     </TableBody>
                 </Table>
-
-                {/* {showModal ? (
-                    <Modal
-                        setShowModal={setShowModal}
-                        submitFunction={async (data) => {
-                            const newPoliza = await createPoliza(data, token)
-                            console.log(newPoliza, "newPoliza");
-                            setPoliza({
-                                ...poliza,
-                                polizas: [...polizas, newPoliza],
-                            });
-                            console.log(poliza, "poliza");
-                            return newPoliza;
-                        }}
-                        handleSubmit={handleSubmit}
-                        data={data}
-                        title="Poliza"
-                    />
-                ) : null} */}
             </Layout>
         </>
     );
@@ -309,15 +212,24 @@ async function getPoliza(token) {
     }
 }
 
-const onSubmit = (data) => {
-    registerUser(data)
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-};
+const list = [
+    {
+        link: "/polizas/[id]",
+        image: "/images/watch.svg",
+    },
+    {
+        link: "/polizas/[id]",
+        image: "/images/update.svg",
+    },
+    {
+        link: "/polizas/[id]",
+        image: "/images/delete.svg",
+    },
+];
+
+const actionButton = list.map((item, index) => (
+    <ActionRow {...item} key={index} />
+))
 
 function filteredPoliza(poliza) {
     return poliza.map((el) => {
@@ -326,6 +238,7 @@ function filteredPoliza(poliza) {
             policyNum: el.policyNum,
             risk: el.Risk,
             insuredValue: el.insuredValue,
+            Acciones: actionButton,
         };
         return data;
     });

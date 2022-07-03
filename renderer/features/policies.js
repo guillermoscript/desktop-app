@@ -51,6 +51,7 @@ export async function submitPolicy(user, router, config, serviceRoute, data) {
     const apiUrl = config.apiUrl();
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${user.token}`);
+    myHeaders.append("Content-Type", "application/json");
 
     const requestOptions = {
         method: "POST",
@@ -59,10 +60,16 @@ export async function submitPolicy(user, router, config, serviceRoute, data) {
         body: JSON.stringify(data),
     };
 
+    console.log(requestOptions, 'requestOptions');
+
     try {
-        const response = await fetch(`${apiUrl}/${serviceRoute}`, requestOptions);
-        const data = await response.json();
-        return data
+        const response = await fetch(`${apiUrl}/policies/${serviceRoute}`, requestOptions);
+        if (response.status === 201) {
+            const data = await response.json();
+            return data
+        } else {
+            return false
+        }
     } catch (error) {
         console.log(error);
         return error;

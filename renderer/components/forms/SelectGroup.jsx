@@ -1,4 +1,4 @@
-export default function SelectGroup({ name, text, optionData, register, validate, errors, classes }) {
+export default function SelectGroup({ name, text, optionData, register, validate, errors, classes, selectedIndex = null }) {
     return (
         <div className={classes.div}>
             <label
@@ -15,7 +15,7 @@ export default function SelectGroup({ name, text, optionData, register, validate
                 {/* the first option shoul be a disable optip  */}
                 <option value="">Selecciona una opción</option>
                 {optionData.map(el => {
-                    return <option value={el.value} > {el.optionName}</option>
+                    return <option selected={ el.value === selectedIndex ? true : false} value={el.value} > {el.optionName}</option>
                 })}
 
             </select>

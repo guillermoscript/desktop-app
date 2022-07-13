@@ -1,4 +1,4 @@
-export function getSelectPolizaData(register, errors, classes) {
+export function getSelectPolizaData(register, errors, classes, polizas) {
     return [
         {
             id: 28,
@@ -6,7 +6,8 @@ export function getSelectPolizaData(register, errors, classes) {
             register,
             errors,
             name: 'insuranceCarrierId',
-            text: "Aseguradora"
+            text: "Aseguradora",
+            selectedIndex : polizas?.InsuranceCarrierId
         },
         {
             id: 29,
@@ -14,7 +15,8 @@ export function getSelectPolizaData(register, errors, classes) {
             register,
             errors,
             name: 'clientId',
-            text: "Clientes"
+            text: "Clientes",
+            selectedIndex : polizas?.ClientHasPolicies[0].clientId
         },
         {
             id: 30,
@@ -22,7 +24,8 @@ export function getSelectPolizaData(register, errors, classes) {
             register,
             errors,
             name: 'agentId',
-            text: "Agentes"
+            text: "Agentes",
+            selectedIndex : polizas?.AgentContracts[0].agentId
         },
         {
             id: 31,
@@ -30,7 +33,8 @@ export function getSelectPolizaData(register, errors, classes) {
             register,
             errors,
             name: 'policyStatusId',
-            text: "Estado de la Poliza"
+            text: "Estado de la Poliza",
+            selectedIndex : polizas?.policyStatusId
         },
         {
             id: 32,
@@ -38,7 +42,8 @@ export function getSelectPolizaData(register, errors, classes) {
             register,
             errors,
             name: 'relationId',
-            text: "Relacion a poliza"
+            text: "Relacion a poliza",
+            selectedIndex : polizas?.ClientHasPolicies[0].relationId
         },
         {
             id: 33,
@@ -46,7 +51,8 @@ export function getSelectPolizaData(register, errors, classes) {
             register,
             errors,
             name: 'periodicityId',
-            text: "Periodicidad"
+            text: "Periodicidad",
+            selectedIndex : polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].periodicityId
         },
         {
             id: 34,
@@ -54,7 +60,8 @@ export function getSelectPolizaData(register, errors, classes) {
             register,
             errors,
             name: 'currencyId',
-            text: "Moneda"
+            text: "Moneda",
+            selectedIndex: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].currencyId
         }
     ]
 }

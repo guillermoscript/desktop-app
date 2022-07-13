@@ -1,19 +1,22 @@
-export function getInputData(register, errors, classes) {
+import tinydate from "tinydate";
+
+function convertDate(string){
+    
+    const foodate = new Date(string);
+    const format = tinydate('{YYYY}-{MM}-{DD}');
+    return format(foodate);
+}
+
+export function getInputData(register, errors, classes, polizas = null) {
+
     return [
-        // {
-        //     id: 1,
-        //     name: "insuranceCarrierId",
-        //     type: "text",
-        //     placeholder: "",
-        //     register,
-        //     errors,
-        //     text: "Aseguradora",
-        //     classes
-        // },
         {
             id: 2,
             name: "policyNum",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.policyNum,
+            defaultValue: polizas?.policyNum,
             placeholder: "",
             register,
             errors,
@@ -23,32 +26,23 @@ export function getInputData(register, errors, classes) {
         {
             id: 3,
             name: "insuredValue",
+            autocomplete: "on",
             type: "number",
+            // value: polizas?.insuredValue,
+            defaultValue: polizas?.insuredValue,
             placeholder: "",
             register,
             errors,
             text: "Valor Asegurado",
             classes
         },
-        // {
-        //     id: 4,
-        //     name: "subBranchId",
-        //     type: "text",
-        //     placeholder: "",
-        //     register,
-        //     errors,
-        //     text: "Sub-Ramo",
-        //     classes: {
-        //         label: "text-sm font-medium text-gray-900 block mb-2",
-        //         input:
-        //             "shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5",
-        //         // div: "col-span-6 sm:col-span-3",
-        //     },
-        // },
         {
             id: 5,
             name: "Risk",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.Risk,
+            defaultValue: polizas?.Risk,
             placeholder: "",
             register,
             errors,
@@ -58,7 +52,9 @@ export function getInputData(register, errors, classes) {
         {
             id: 6,
             name: "Renovable",
+            autocomplete: "on",
             type: "checkbox",
+            checked: polizas?.Renovable,
             placeholder: "",
             register,
             errors,
@@ -73,7 +69,10 @@ export function getInputData(register, errors, classes) {
         {
             id: 7,
             name: "primeValue",
+            autocomplete: "on",
             type: "number",
+            // value: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].primeValue,
+            defaultValue: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].primeValue,
             placeholder: "",
             register,
             errors,
@@ -83,7 +82,10 @@ export function getInputData(register, errors, classes) {
         {
             id: 8,
             name: "AnnexValue",
+            autocomplete: "on",
             type: "number",
+            // value: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].AnnexValue,
+            defaultValue: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].AnnexValue,
             placeholder: "",
             register,
             errors,
@@ -93,7 +95,10 @@ export function getInputData(register, errors, classes) {
         {
             id: 9,
             name: "comission",
+            autocomplete: "on",
             type: "number",
+            // value: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].comission,
+            defaultValue: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].comission,
             placeholder: "",
             register,
             errors,
@@ -103,7 +108,9 @@ export function getInputData(register, errors, classes) {
         {
             id: 10,
             name: "comissionPolicyStatus",
+            autocomplete: "on",
             type: "checkbox",
+            checked: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].comissionPolicyStatus,
             placeholder: "",
             register,
             errors,
@@ -118,7 +125,10 @@ export function getInputData(register, errors, classes) {
         {
             id: 11,
             name: "ValorFinalizacion",
+            autocomplete: "on",
             type: "number",
+            // value: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].ValorFinalizacion,
+            defaultValue: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].ValorFinalizacion,
             placeholder: "",
             register,
             errors,
@@ -128,7 +138,10 @@ export function getInputData(register, errors, classes) {
         {
             id: 12,
             name: "Total",
+            autocomplete: "on",
             type: "number",
+            // value: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].Total,
+            defaultValue: polizas?.ClientHasPolicies[0].ClientHasTaker[0].PolicyDetails[0].Total,
             placeholder: "",
             register,
             errors,
@@ -138,8 +151,11 @@ export function getInputData(register, errors, classes) {
         {
             id: 35,
             name: "periodStartDate",
+            autocomplete: "on",
             type: "date",
-            placeholder: "",
+            // value: polizas?.Periods[0].startDate ? convertDate(polizas?.Periods[0].startDate): null,
+            defaultValue: polizas?.Periods[0].startDate ? convertDate(polizas?.Periods[0].startDate): null,
+            // placeholder: "",
             register,
             errors,
             text: "Fecha de Inicio de Poliza",
@@ -148,8 +164,11 @@ export function getInputData(register, errors, classes) {
         {
             id: 36,
             name: "periodEndDate",
+            autocomplete: "on",
             type: "date",
-            placeholder: "",
+            // value: polizas?.Periods[0].endDate ? convertDate(polizas?.Periods[0].endDate): null,
+            defaultValue: polizas?.Periods[0].endDate ? convertDate(polizas?.Periods[0].endDate): null,
+            // placeholder: "",
             register,
             errors,
             text: "Fecha de Fin de Poliza",
@@ -158,7 +177,10 @@ export function getInputData(register, errors, classes) {
         {
             id: 37,
             name: "renewal",
+            autocomplete: "on",
             type: "number",
+            // value: polizas?.Periods[0].renewal,
+            defaultValue: polizas?.Periods[0].renewal,
             placeholder: "",
             register,
             errors,
@@ -169,13 +191,16 @@ export function getInputData(register, errors, classes) {
 }
 
 
-export function getVehicleInputData(register, errors, classes) {
+export function getVehicleInputData(register, errors, classes, polizas = null) {
 
     return [
         {
             id: 13,
             name: "brand",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.Vehicles.brand,
+            defaultValue: polizas?.Vehicles.brand,
             placeholder: "",
             register,
             errors,
@@ -185,7 +210,10 @@ export function getVehicleInputData(register, errors, classes) {
         {
             id: 14,
             name: "class",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.Vehicles.class,
+            defaultValue: polizas?.Vehicles.class,
             placeholder: "",
             register,
             errors,
@@ -195,7 +223,10 @@ export function getVehicleInputData(register, errors, classes) {
         {
             id: 15,
             name: "model",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.Vehicles.model,
+            defaultValue: polizas?.Vehicles.model,
             placeholder: "",
             register,
             errors,
@@ -205,7 +236,10 @@ export function getVehicleInputData(register, errors, classes) {
         {
             id: 16,
             name: "vehicleType",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.Vehicles.vehicleType,
+            defaultValue: polizas?.Vehicles.vehicleType,
             placeholder: "",
             register,
             errors,
@@ -215,7 +249,10 @@ export function getVehicleInputData(register, errors, classes) {
         {
             id: 17,
             name: "serviceType",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.Vehicles.serviceType,
+            defaultValue: polizas?.Vehicles.serviceType,
             placeholder: "",
             register,
             errors,
@@ -225,7 +262,9 @@ export function getVehicleInputData(register, errors, classes) {
         {
             id: 18,
             name: "gasConverted",
+            autocomplete: "on",
             type: "checkbox",
+            checked: polizas?.Vehicles.gasConverted,
             placeholder: "",
             register,
             errors,
@@ -235,7 +274,10 @@ export function getVehicleInputData(register, errors, classes) {
         {
             id: 19,
             name: "vehicleAge",
+            autocomplete: "on",
             type: "number",
+            // value: polizas?.Vehicles.vehicleAge,
+            defaultValue: polizas?.Vehicles.vehicleAge,
             placeholder: "",
             register,
             errors,
@@ -245,12 +287,15 @@ export function getVehicleInputData(register, errors, classes) {
     ];
 }
 
-export function getTravelInputData(register, errors, classes) {
+export function getTravelInputData(register, errors, classes, polizas = null) {
     return [
         {
             id: 20,
             name: "startCountry",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.Travels.startCountry,
+            defaultValue: polizas?.Travels.startCountry,
             placeholder: "",
             register,
             errors,
@@ -260,7 +305,10 @@ export function getTravelInputData(register, errors, classes) {
         {
             id: 21,
             name: "endCountry",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.Travels.endCountry,
+            defaultValue: polizas?.Travels.endCountry,
             placeholder: "",
             register,
             errors,
@@ -270,8 +318,11 @@ export function getTravelInputData(register, errors, classes) {
         {
             id: 55,
             name: "startDate",
+            autocomplete: "on",
             type: "date",
             placeholder: "",
+            // value: polizas?.Travels.startDate ? convertDate(polizas?.Travels.startDate): null,
+            defaultValue: polizas?.Travels.startDate ? convertDate(polizas?.Travels.startDate): null,
             register,
             errors,
             text: "Fecha de Salida",
@@ -280,8 +331,11 @@ export function getTravelInputData(register, errors, classes) {
         {
             id: 22,
             name: "endDate",
+            autocomplete: "on",
             type: "date",
             placeholder: "",
+            // value: polizas?.Travels.endDate ? convertDate(polizas?.Travels.endDate) : null,
+            defaultValue: polizas?.Travels.endDate ? convertDate(polizas?.Travels.endDate) : null,
             register,
             errors,
             text: "Fecha de Llegada",
@@ -289,12 +343,15 @@ export function getTravelInputData(register, errors, classes) {
         }]
 }
 
-export function getPatrimonialInputData(register, errors, classes) {
+export function getPatrimonialInputData(register, errors, classes, polizas = null) {
     return [
         {
             id: 23,
             name: "type",
+            autocomplete: "on",
             type: "text",
+            // value: polizas?.Patrimonials.type,
+            defaultValue: polizas?.Patrimonials.type,
             placeholder: "",
             register,
             errors,
@@ -304,7 +361,10 @@ export function getPatrimonialInputData(register, errors, classes) {
         {
             id: 24,
             name: "totalValue",
+            autocomplete: "on",
             type: "number",
+            // value: polizas?.Patrimonials.totalValue,
+            defaultValue: polizas?.Patrimonials.totalValue,
             placeholder: "",
             register,
             errors,
@@ -314,8 +374,11 @@ export function getPatrimonialInputData(register, errors, classes) {
         {
             id: 25,
             name: "machineryValue",
+            autocomplete: "on",
             type: "number",
-            placeholder: "",
+            value: polizas?.Patrimonials.machineryValue,
+            // defaultValue: polizas?.Patrimonials.machineryValue,
+            placeholder: polizas?.Patrimonials.machineryValue,
             register,
             errors,
             text: "Valor de Maquinaria",
@@ -324,8 +387,11 @@ export function getPatrimonialInputData(register, errors, classes) {
         {
             id: 26,
             name: "furnitureValue",
+            autocomplete: "on",
             type: "number",
-            placeholder: "",
+            value: polizas?.Patrimonials.furnitureValue,
+            // defaultValue: polizas?.Patrimonials.furnitureValue,
+            placeholder: polizas?.Patrimonials.furnitureValue,
             register,
             errors,
             text: "Valor de Inmuebles",

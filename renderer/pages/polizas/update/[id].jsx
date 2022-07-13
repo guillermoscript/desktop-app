@@ -1,18 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import InputGroup from "../../components/forms/InputGroup";
-import SelectGroup from "../../components/forms/SelectGroup";
-
-import Layout from "../../components/Layout/Layout";
-import { useEffect, useState } from "react";
-import ButtonIcon from "../../components/Buttons/ButtonIcon";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { config } from "../../../configs";
-import { fileteredClientData, fileteredData, getPoliciesGeneralData, submitPolicy } from "../../features/policies";
-import { getInputData, getPatrimonialInputData, getTravelInputData, getVehicleInputData } from "../../data/polizas/inputs";
-import { getSelectPolizaData } from "../../data/polizas/select";
-import { polizaSchema } from "../../data/polizas/schema";
+
+import InputGroup from "../../../components/forms/InputGroup";
+import SelectGroup from "../../../components/forms/SelectGroup";
+import Layout from "../../../components/Layout/Layout";
+import { config } from "../../../../configs";
+import { fileteredClientData, fileteredData, getPoliciesGeneralData, submitPolicy, updatePolicy } from "../../../features/policies";
+import { getInputData, getPatrimonialInputData, getTravelInputData, getVehicleInputData } from "../../../data/polizas/inputs";
+import { getSelectPolizaData } from "../../../data/polizas/select";
+import { polizaSchema } from "../../../data/polizas/schema";
 
 const schema = polizaSchema();
 
@@ -22,18 +21,25 @@ export default function UpdatePoliza() {
         handleSubmit,
         watch,
         getValues,
+        setValue,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(schema),
     });
 
     // states
+    const [loading, setLoading] = useState(true);
     const [selectSubBranch, setSelectSubBranch] = useState([
         {
             value: '',
-            optionName: ''
+            optionName: '',
         }
     ])
+
+    const [poliza, setPoliza] = useState({
+        polizas: null,
+        token: null,
+    });
 
     const [generalSelects, setgeneralSelects] = useState([
         {
@@ -42,17 +48,12 @@ export default function UpdatePoliza() {
         }
     ])
 
-    const [selectedBranch, setSelectedBranch] = useState({
-        id: 1,
-        value: 'Personas'
-    })
     const user = useSelector((state) => state.users);
-    const router = useRouter()
+    const router = useRouter();
 
-    const handleBranchChange = (text, id) => setSelectedBranch({
-        id,
-        value: text
-    })
+    //GET ROUTE ID
+    const { id } = router.query;
+    const polizaId = id;
 
     const classes = {
         label: "text-sm font-medium text-gray-900 block mb-2",
@@ -62,52 +63,33 @@ export default function UpdatePoliza() {
         error: "text-red-700",
     }
 
+    const { polizas, token } = poliza
+
     const selectSubBranchData = {
         classes,
         name: 'subBranchId',
         text: 'Sub Ramo',
+        selectedIndex: polizas?.subBranchId,
         register,
         // validate,
         errors
     }
-    // diferentes branchs
-    const buttonsBranch = [
-        {
-            buttonClass: 'w-1/2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto',
-            onClickHandle: () => handleBranchChange('Vehiculos', 2),
-            text: 'Vehiculos'
-        },
-        {
-            buttonClass: 'w-1/2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto',
-            onClickHandle: () => handleBranchChange('Viajes', 3),
-            text: 'Viajes'
-        },
-        {
-            buttonClass: 'w-1/2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto',
-            onClickHandle: () => handleBranchChange('Patrimoniales', 4),
-            text: 'Patrimoniales'
-        },
-        {
-            buttonClass: 'w-1/2 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-100 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto',
-            onClickHandle: () => handleBranchChange('Personas', 1),
-            text: 'Personas'
-        }
-    ]
+
     // generals input
-    const inputData = getInputData(register, errors, classes);
+    const inputData = getInputData(register, errors, classes, polizas);
 
     const vehicleInputData = [...inputData,
-    ...getVehicleInputData(register, errors, classes)
+    ...getVehicleInputData(register, errors, classes, polizas)
     ]
     const travelInputData = [...inputData,
-    ...getTravelInputData(register, errors, classes)
+    ...getTravelInputData(register, errors, classes, polizas)
     ]
     const patrimonialInputData = [...inputData,
-        ...getPatrimonialInputData(register, errors, classes)
+        ...getPatrimonialInputData(register, errors, classes, polizas)
     ]
     const personInputData = [...inputData]
 
-    const selectGroupData = getSelectPolizaData(register, errors, classes);
+    const selectGroupData = getSelectPolizaData(register, errors, classes, polizas);
 
     const getSelectGroupData = selectGroupData.map((el, index) => {
         if (generalSelects.length > 1) {
@@ -142,18 +124,19 @@ export default function UpdatePoliza() {
     ]
 
     // la estate machin
+    // TODO verificar si el return es en sigular nada mas 
     const stateMachine = {
-        Vehiculos: vehicleForm,
-        Personas: personForm,
-        Viajes: travelsForm,
-        Patrimoniales: patrimonialsForm,
+        Vehiculo: vehicleForm,
+        Persona: personForm,
+        Viaje: travelsForm,
+        Patrimoniale: patrimonialsForm,
     }
 
     const postStateMachine = {
-        Vehiculos: 'vehicle',
-        Personas: '',
-        Viajes: 'travel',
-        Patrimoniales: 'patrimonial',
+        Vehiculo: 'vehicle',
+        Persona: '',
+        Viaje: 'travel',
+        Patrimonial: 'patrimonial',
     }
 
     function filterSubBranch(branchs) {
@@ -165,8 +148,55 @@ export default function UpdatePoliza() {
         })
     }
 
-    // se encarga de actualizar el form
+    async function getPolizaUnique(token, id) {
+        const apiUrl = config.apiUrl();
+        // const token =
+        //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIxLCJlbWFpbCI6Imd1aWxsZUBhZG1pbi5jb20iLCJpYXQiOjE2NTQ4NTEzMDQsImV4cCI6MTY1NDg1NDkwNH0.KjkzuugtnXjuItYLACdlbEq25zd63DzkR93pea-Lx4w";
+    
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+    
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow",
+        };
+    
+        try {
+            const response = await fetch(`${apiUrl}/policies/${id}`, requestOptions);
+            const data = await response.json();
+            return data
+        } catch (error) {
+            console.error(error);
+            return;
+        }
+    }
+
+
     useEffect(() => {
+        async function fetchPolizas() {
+            console.log(user, "user");
+            if (!user.token) {
+                router.push("/auth")
+            }
+            
+            const polizas = await getPolizaUnique(user.token, polizaId);
+            getSubranches(polizas.branchTypeId).then(data => setSelectSubBranch(data));
+            console.log(polizas, "polizas");
+
+            setPoliza({
+                polizas,
+                token: user.token,
+            });
+            setLoading(false);
+            inputData.forEach(el => {
+                console.log(getValues(el.name), "getValues before", el.name);
+                setValue(el.name, el.defaultValue)
+                console.log(getValues(el.name), "getValues after", el.name);
+                
+            })
+            
+        }
         async function getSubranches(branchId) {
             // console.log(user, "user");
             if (!user.token) {
@@ -192,8 +222,11 @@ export default function UpdatePoliza() {
                 return;
             }
         }
-        getSubranches(selectedBranch.id).then(data => setSelectSubBranch(data))
-    }, [selectedBranch])
+        fetchPolizas();
+    }, []);
+
+
+    // se encarga de actualizar el form
 
     // corre al principio y ya
     useEffect(() => {
@@ -213,14 +246,18 @@ export default function UpdatePoliza() {
         })
     }, [])
 
+    // useEffect(() => {
+        
+    // }, [poliza])
+
     function onSubmit(data) {
         console.log(data, "data");
-        const serviceRoute = postStateMachine[selectedBranch.value]
-        data.branchTypeId = parseInt(selectedBranch.id)
+        const serviceRoute = postStateMachine[polizas.branchTypes.name]
+        data.branchTypeId = poliza.branchTypeId
 
         console.log(serviceRoute, "serviceRoute");
 
-        submitPolicy(user, router, config, serviceRoute, data)
+        updatePolicy(user, router, config, serviceRoute, data)
             .then(response => {
                 console.log(response);
                 if (response) {
@@ -231,18 +268,18 @@ export default function UpdatePoliza() {
             })
     }
 
+
+    if (loading || !polizas) {
+        return <div>Cargando...</div>;
+    }
+    
     return (
         <>
             <Layout title="Actualizar Poliza">
-                <div className="p-4 block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
-                    <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
-                        {buttonsBranch.map((el, i) => <ButtonIcon key={i} {...el} />)}
-                    </div>
-                </div>
-
+                
                 <form onSubmit={handleSubmit(onSubmit)} className=" w-full bg-white p-16">
                     <div className="grid gap-6 mb-6 lg:grid-cols-2">
-                        {stateMachine[selectedBranch.value]}
+                        {stateMachine[polizas.BranchTypes.name]}
                     </div>
                     <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Añadir</button>
                 </form>

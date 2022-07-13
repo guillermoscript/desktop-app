@@ -212,24 +212,26 @@ async function getPoliza(token) {
     }
 }
 
-const list = [
-    {
-        link: "/polizas/[id]",
-        image: "/images/watch.svg",
-    },
-    {
-        link: "/polizas/[id]",
-        image: "/images/update.svg",
-    },
-    {
-        link: "/polizas/[id]",
-        image: "/images/delete.svg",
-    },
-];
-
-const actionButton = list.map((item, index) => (
-    <ActionRow {...item} key={index} />
-))
+const list = (id) => (
+    [
+        {
+            link: `/polizas/${id}`,
+            image: "/images/watch.svg",
+        },
+        {
+            link: `/polizas/update/${id}`,
+            image: "/images/update.svg",
+        },
+        {
+            link: `#`,
+            image: "/images/delete.svg",
+            handleClick: (e) => {
+                e.preventDefault();
+                console.log("delete", id);
+            }
+        },
+    ]
+);
 
 function filteredPoliza(poliza) {
     return poliza.map((el) => {
@@ -238,7 +240,9 @@ function filteredPoliza(poliza) {
             policyNum: el.policyNum,
             risk: el.Risk,
             insuredValue: el.insuredValue,
-            Acciones: actionButton,
+            Acciones: list(el.id).map((item, index) => (
+                <ActionRow {...item} key={index} />
+            )),
         };
         return data;
     });
